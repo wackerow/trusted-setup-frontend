@@ -82,3 +82,20 @@ export async function blsSignId(secret: string, id: string): Promise<string> {
   const sig = await bls.sign(id, secret);
   return Buffer.from(sig).toString('hex');
 }
+
+export async function githubHandleToIdentity(handle: string): Promise<string> {
+  // get github id
+  const res = await fetch(`https://api.github.com/users/${handle}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+  const ghId = (await res.json())?.id;
+
+  return `git|${ghId}|${handle}`;
+}
+
+export function ethAddressToIdentity(address: string): string {
+  return `eth|${address}`;
+}
