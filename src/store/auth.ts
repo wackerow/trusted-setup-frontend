@@ -7,12 +7,14 @@ type Store = {
   oauthToken: string | null
   idToken: string | null
   sessionId: string | null
+  identity: string | null,
   error: string | null
   signin: (
     oauthToken: string,
     provider: OAuthProvider,
     idToken: string,
-    sessionId: string
+    sessionId: string,
+    identity: string
   ) => void
   signout: () => void
   setError: (msg: string) => void
@@ -23,15 +25,18 @@ export const useAuthStore = create<Store>((set) => ({
   provider: null,
   idToken: null,
   sessionId: null,
+  identity: null,
   error: null,
-  signin: (oauthToken, provider, idToken, sessionId) =>
+  signin: (oauthToken, provider, idToken, sessionId, identity) => {
     set({
       oauthToken,
       provider,
       idToken,
       sessionId,
+      identity,
       error: null
-    }),
+    });    
+  },
   signout: () =>
     set({
       oauthToken: null,

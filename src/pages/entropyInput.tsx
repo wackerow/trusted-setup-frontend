@@ -26,6 +26,8 @@ const EntropyInputPage = () => {
   const handleSubmit = () => {
     if (percentage !== 100) return
     updateEntropy(0, entropy)    
+    // convert entropy to secrets
+    // sign
     navigate(ROUTES.LOBBY)
   }
 

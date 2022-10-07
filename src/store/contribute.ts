@@ -26,6 +26,11 @@ export const useContributionStore = create<Store>( (set, get) => ({
     let newEntropy = get().entropy;
     newEntropy[index] = data;
     set({ entropy: newEntropy})
+
+    // get secrets
+    // get pubkeys
+    // get bls signatures
+    
   },
   updateProofs: (data: string | null) => set({ proofs: data }),
   updateReceipt: (data: string | null) => set({ receipt: data }),

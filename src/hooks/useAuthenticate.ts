@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import api from '../api'
 import OAuthPopup from '../OAuthPopup'
 import { useAuthStore } from '../store/auth'
-import { isSuccessRes, parseErrorMessage } from '../utils'
+import { ethAddressToIdentity, githubHandleToIdentity, isSuccessRes, parseErrorMessage } from '../utils'
 
 export default function useAuthenticate() {
   const authStore = useAuthStore()
@@ -29,7 +29,8 @@ export default function useAuthenticate() {
       const result = await popup.wait()
       const res = await api.getAuthorized('github', result.code, result.state)
       if (isSuccessRes(res)) {
-        authStore.signin(result.code, 'github', res.id_token, res.session_id)
+        const identity = await githubHandleToIdentity(result.id_token);
+        authStore.signin(result.code, 'github', res.id_token, res.session_id, identity)
         return true
       } else {
         authStore.setError( parseErrorMessage(res) )
@@ -63,7 +64,8 @@ export default function useAuthenticate() {
       const result = await popup.wait()
       const res = await api.getAuthorized('eth', result.code, result.state)
       if (isSuccessRes(res)) {
-        authStore.signin(result.code, 'eth', res.id_token, res.session_id)
+        const identity = await ethAddressToIdentity(res.id_token)
+        authStore.signin(result.code, 'eth', res.id_token, res.session_id, identity)
         return true
       } else {
         authStore.setError( parseErrorMessage(res) )
