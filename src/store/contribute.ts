@@ -2,6 +2,7 @@ import create from 'zustand';
 
 export type Store = {
   entropy: string[],
+  secrets: string[],
   proofs: string | null,
   receipt: string | null,
   signature: string | null,
@@ -17,6 +18,7 @@ export type Store = {
 
 export const useContributionStore = create<Store>( (set, get) => ({
   entropy: ['','','',''],
+  secrets: ['','','',''],
   proofs: null,
   receipt: null,
   signature: null,
@@ -25,10 +27,13 @@ export const useContributionStore = create<Store>( (set, get) => ({
   updateEntropy: (index: number, data: string) => {
     let newEntropy = get().entropy;
     newEntropy[index] = data;
-    set({ entropy: newEntropy})
+    // get secret
+    const secrets = entropy_to_secrets(newEntropy)
 
-    // get secrets
+    set({ entropy: newEntropy, secrets })
+
     // get pubkeys
+
     // get bls signatures
     
   },

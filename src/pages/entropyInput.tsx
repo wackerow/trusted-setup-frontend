@@ -25,9 +25,11 @@ const EntropyInputPage = () => {
   const updateEntropy = useContributionStore((state: Store) => state.updateEntropy)
   const handleSubmit = () => {
     if (percentage !== 100) return
-    updateEntropy(0, entropy)    
+    updateEntropy(0, entropy)
     // convert entropy to secrets
+    
     // sign
+
     navigate(ROUTES.LOBBY)
   }
 
